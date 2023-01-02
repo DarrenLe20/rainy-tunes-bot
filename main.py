@@ -95,7 +95,7 @@ def tweet(api):
         song_url = recommend(weather_code)
         # print(song_url)
         api.update_status(msg + "\n" + song_url)
-        msg_follower(api, msg + "\n" + song_url)
+        # msg_follower(api, msg + "\n" + song_url)
 
 
 def msg_follower(api, msg):
