@@ -6,12 +6,12 @@ import os
 import tekore as tk
 import tweepy as tp
 from datetime import date
+import constants
 
 load_dotenv()
 
 ERROR = False
-tracks_data = {"id": [], "genre": [], "track_name": [], "artist_name": [],
-               "valence": [], "url": []}
+tracks_data = {"id": [], "track_name": [], "valence": [], "url": []}
 default_location = "New York"
 
 
@@ -52,10 +52,7 @@ def authorize_spotify():
 
 def get_data(track):
     tracks_data["id"].append(track.id)
-    tracks_data["genre"].append(track.genre)
     tracks_data["track_name"].append(track.name)
-    artists = [artist.name for artist in track.artists]
-    tracks_data["artist_name"].append(', '.join(artists))
     tracks_data["valence"].append(track.valence)
     tracks_data["url"].append(track.external_urls['spotify'])
 
@@ -72,8 +69,16 @@ def get_all_tracks():
         time.sleep(0.5)
 
 
+def get_cond(weather_code):
+    for key, val in constants.WEATHER_CONDITIONS.items():
+        if (weather_code in val):
+            return key
+
+
 def recommend(weather_code):
-    print(weather_code)
+    cond = get_cond(weather_code)
+    min = constants.WEATHER_CONDITIONS[cond][0]
+    max = constants.WEATHER_CONDITIONS[cond][1]
 
 
 def tweet(api):

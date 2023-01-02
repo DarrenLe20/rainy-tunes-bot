@@ -9,13 +9,13 @@ WEATHER_CATEGORIES = {
 }
 
 WEATHER_VALENCE = {
-    "good": (0.7, 1),
-    "moody": (0.2, 0.5),
-    "chill": (0.5, 0.7),
-    "moderate": (0.4, 0.6),
-    "fun": (0.8, 1),
-    "bad": (0.3, 0.6),
-    "dangerous": (0, 0.3),
+    "good": [0.7, 1],
+    "moody": [0.2, 0.5],
+    "chill": [0.5, 0.7],
+    "moderate": [0.4, 0.6],
+    "fun": [0.8, 1],
+    "bad": [0.3, 0.6],
+    "dangerous": [0, 0.3],
 }
 
 WEATHER_CODES = {
