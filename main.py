@@ -67,7 +67,7 @@ def get_all_tracks():
     random.shuffle(genres)
     for genre in genres:
         # 100 recommended tracks per genre
-        rec = sp.recommendations(genres=[genre], limit=1)
+        rec = sp.recommendations(genres=[genre], limit=50)
         # add tracks to tracks_data
         for track in rec.tracks:
             get_data(track, sp)
