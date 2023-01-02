@@ -31,6 +31,8 @@ The bot is written in Python and uses [Tweepy](https://www.tweepy.org/) library 
 
       ```SPOTIFY_ID_SECRET="your_spotify_secret_key"```
 
+      ```WEATHERSTACK_API_KEY="your_weatherstack_key"```
+
 8. Run the main.py file
 
       ```python main.py```

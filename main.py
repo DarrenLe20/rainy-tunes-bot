@@ -9,12 +9,35 @@ from datetime import date
 
 load_dotenv()
 
+ERROR = False
+
 
 def get_current_date():
     return date.today().strftime("%B %d, %Y")
 
 
+def get_weather():
+    WEATHERSTACK_API_KEY = os.getenv("WEATHERSTACK_API_KEY")
+    try:
+        req = requests.get(
+            "http://api.weatherstack.com/current?access_key=" + WEATHERSTACK_API_KEY + "&query=New York")
+        response = req.json()
+        description = response['current']['weather_descriptions'][0]
+        temperature = response['current']['temperature']
+        # precipitation = response['current']['precip']
+        # humidity = response['current']['humidity']
+        # visibility = response['current']['visibility']
+        # wind_speed = response['current']['wind_speed']
+        # feels_like = response['current']['feelslike']
+        msg = "New York (" + get_current_date() + "): " + \
+            description + ", " + str(temperature) + "°C"
+        return msg
+    except:
+        ERROR = True
+
 # Authenticate to Twitter
+
+
 def api_auth():
     auth = tp.OAuth1UserHandler(
         os.getenv("TWITTER_API"), os.getenv("TWITTER_SECRET"))
@@ -35,12 +58,12 @@ def get_all_tracks():
     genres = sp.recommendation_genre_seeds()
     for genre in genres:
         rec = sp.recommendations(genres=[genre], limit=1)
-        print(rec.tracks[0].name)
 
 
 def tweet(api):
-    msg = get_current_date()
-    # msg_follower(api)
+    if ERROR == False:
+        msg = get_weather()
+        # msg_follower(api)
 
 
 # def msg_follower(api):
