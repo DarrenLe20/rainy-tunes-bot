@@ -7,6 +7,7 @@ import tekore as tk
 import tweepy as tp
 from datetime import date
 import constants
+import random
 
 load_dotenv()
 
@@ -50,43 +51,51 @@ def authorize_spotify():
     return tk.Spotify(app_token)
 
 
-def get_data(track):
+def get_data(track, sp):
     tracks_data["id"].append(track.id)
     tracks_data["track_name"].append(track.name)
-    tracks_data["valence"].append(track.valence)
+    valence = sp.track_audio_features(track.id).valence
+    tracks_data["valence"].append(valence)
     tracks_data["url"].append(track.external_urls['spotify'])
 
 
 def get_all_tracks():
     sp = authorize_spotify()
     genres = sp.recommendation_genre_seeds()
+    random.shuffle(genres)
     for genre in genres:
         # 100 recommended tracks per genre
-        rec = sp.recommendations(genres=[genre], limit=100)
+        rec = sp.recommendations(genres=[genre], limit=1)
         # add tracks to tracks_data
         for track in rec.tracks:
-            get_data(track)
+            get_data(track, sp)
         time.sleep(0.5)
 
 
 def get_cond(weather_code):
-    for key, val in constants.WEATHER_CONDITIONS.items():
+    for key, val in constants.WEATHER_CATEGORIES.items():
         if (weather_code in val):
             return key
 
 
 def recommend(weather_code):
     cond = get_cond(weather_code)
-    min = constants.WEATHER_CONDITIONS[cond][0]
-    max = constants.WEATHER_CONDITIONS[cond][1]
+    min = constants.WEATHER_VALENCE[cond][0]
+    max = constants.WEATHER_VALENCE[cond][1]
+    # find a track that matches the weather condition
+    for i in range(len(tracks_data["valence"])):
+        if (tracks_data["valence"][i] >= min and tracks_data["valence"][i] <= max):
+            return tracks_data["url"][i]
 
 
 def tweet(api):
     if ERROR == False:
         msg, weather_code = get_weather()
-        api.update_status(msg)
-        recommend(weather_code)
-        msg_follower(api, msg)
+        get_all_tracks()
+        song_url = recommend(weather_code)
+        # print(song_url)
+        api.update_status(msg + "\n" + song_url)
+        msg_follower(api, msg + "\n" + song_url)
 
 
 def msg_follower(api, msg):
