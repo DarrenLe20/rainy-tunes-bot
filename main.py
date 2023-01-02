@@ -110,8 +110,8 @@ def get_location(api, user_id):
 def msg_follower(api):
     followers = api.get_follower_ids()
     for follower in followers:
-        song_url = recommend(weather_code)
         msg, weather_code = get_location(api, follower)
+        song_url = recommend(weather_code)
         msg += "\n" + song_url
         api.send_direct_message(follower, msg)
 
