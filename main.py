@@ -101,12 +101,12 @@ def tweet(api):
 
 def get_location(api, user_id):
     try:
-        default_location = api.get_user(user_id).location
-        if default_location == "":
-            default_location = "New York"
+        location = api.get_user(user_id).location
+        if location == "":
+            location = default_location
     except:
-        default_location = "New York"
-    msg, weather_code = get_weather()
+        location = default_location
+    msg, weather_code = get_weather(location=location)
     return msg, weather_code
 
 
