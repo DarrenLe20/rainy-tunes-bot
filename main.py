@@ -94,14 +94,26 @@ def tweet(api):
         get_all_tracks()
         song_url = recommend(weather_code)
         api.update_status(msg + "\n" + song_url)
-        # msg_follower(api, msg + "\n" + song_url)
+        msg_follower(api)
 
 
-def msg_follower(api, msg):
+def get_location(api, user_id):
+    try:
+        default_location = api.get_user(user_id).location
+        if default_location == "":
+            default_location = "New York"
+    except:
+        default_location = "New York"
+    msg, weather_code = get_weather()
+
+
+def msg_follower(api):
     followers = api.get_follower_ids()
     for follower in followers:
-        api.send_direct_message(
-            follower, msg)
+        song_url = recommend(weather_code)
+        msg, weather_code = get_location(api, follower)
+        msg += "\n" + song_url
+        api.send_direct_message(follower, msg)
 
 
 if __name__ == "__main__":
