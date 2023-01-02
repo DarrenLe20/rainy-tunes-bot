@@ -4,6 +4,7 @@ import main
 from datetime import date
 import os
 from dotenv import load_dotenv
+import random
 
 load_dotenv()
 
@@ -33,3 +34,19 @@ class TestBot(unittest.TestCase):
         weather_code = response['current']['weather_code']
         msg = "New York (" + main.get_current_date() + "): " + description
         self.assertEqual(main.get_weather(), (msg, weather_code))
+
+    def test_get_recommendations(self):
+        sp = main.spotify_auth()
+        genre = random.choice(sp.recommendation_genre_seeds())
+        self.assertIsNotNone(sp.recommendation_genre_seeds())
+        self.assertIsNotNone(sp.recommendations(genres=[genre], limit=1))
+
+    def test_get_all_tracks(self):
+        sp = main.spotify_auth()
+        genre = random.choice(sp.recommendation_genre_seeds())
+        rec = sp.recommendations(genres=[genre], limit=1)
+        main.get_data(rec.tracks[0], sp)
+        self.assertIsNotNone(main.tracks_data["id"])
+        self.assertIsNotNone(main.tracks_data["track_name"])
+        self.assertIsNotNone(main.tracks_data["valence"])
+        self.assertIsNotNone(main.tracks_data["url"])
