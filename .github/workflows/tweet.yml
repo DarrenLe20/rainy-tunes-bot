@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: run script
         env:
-          TWITTER_API: ${{ secrets.TWITTER_KEY }}
+          TWITTER_API: ${{ secrets.TWITTER_API }}
           TWITTER_SECRET: ${{ secrets.TWITTER_SECRET }}
           ACCESS: ${{ secrets.ACCESS }}
           ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
