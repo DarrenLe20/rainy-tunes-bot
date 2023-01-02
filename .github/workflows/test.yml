@@ -31,7 +31,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest
         env:
-          TWITTER_API: ${{ secrets.TWITTER_KEY }}
+          TWITTER_API: ${{ secrets.TWITTER_API }}
           TWITTER_SECRET: ${{ secrets.TWITTER_SECRET }}
           ACCESS: ${{ secrets.ACCESS }}
           ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}

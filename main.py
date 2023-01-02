@@ -20,11 +20,11 @@ def get_current_date():
     return date.today().strftime("%B %d, %Y")
 
 
-def get_weather():
+def get_weather(location=default_location):
     WEATHERSTACK_API_KEY = os.getenv("WEATHERSTACK_API_KEY")
     try:
         req = requests.get(
-            "http://api.weatherstack.com/current?access_key=" + WEATHERSTACK_API_KEY + "&query=" + default_location)
+            "http://api.weatherstack.com/current?access_key=" + WEATHERSTACK_API_KEY + "&query=" + location)
         response = req.json()
         description = response['current']['weather_descriptions'][0]
         weather_code = response['current']['weather_code']
@@ -33,6 +33,8 @@ def get_weather():
         return msg, weather_code
     except:
         ERROR = True
+        msg = "Error: Could not get weather data"
+        return msg, 0
 
 
 # Authenticate to Twitter
