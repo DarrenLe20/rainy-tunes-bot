@@ -1,3 +1,5 @@
+![Workflow Status](https://github.com/DarrenLe20/rainy-tunes-bot/actions//workflows/test.yml/badge.svg?event=push)
+
 # Rainy Tunes Bot
 
 Music recommendation Twitter bot

@@ -1,7 +1,7 @@
 from urllib import parse, request
 from dotenv import load_dotenv
 import requests
-import json
+import time
 import os
 import tekore as tk
 import tweepy as tp
@@ -10,6 +10,8 @@ from datetime import date
 load_dotenv()
 
 ERROR = False
+tracks_data = {"id": [], "genre": [], "track_name": [], "artist_name": [],
+               "valence": [], "url": []}
 
 
 def get_current_date():
@@ -23,14 +25,8 @@ def get_weather():
             "http://api.weatherstack.com/current?access_key=" + WEATHERSTACK_API_KEY + "&query=New York")
         response = req.json()
         description = response['current']['weather_descriptions'][0]
-        temperature = response['current']['temperature']
-        # precipitation = response['current']['precip']
-        # humidity = response['current']['humidity']
-        # visibility = response['current']['visibility']
-        # wind_speed = response['current']['wind_speed']
-        # feels_like = response['current']['feelslike']
         msg = "New York (" + get_current_date() + "): " + \
-            description + ", " + str(temperature) + "°C"
+            description
         return msg
     except:
         ERROR = True
@@ -38,7 +34,7 @@ def get_weather():
 # Authenticate to Twitter
 
 
-def api_auth():
+def twitter_auth():
     auth = tp.OAuth1UserHandler(
         os.getenv("TWITTER_API"), os.getenv("TWITTER_SECRET"))
     auth.set_access_token(os.getenv("ACCESS"), os.getenv("ACCESS_SECRET"))
@@ -57,23 +53,35 @@ def get_all_tracks():
     sp = authorize_spotify()
     genres = sp.recommendation_genre_seeds()
     for genre in genres:
-        rec = sp.recommendations(genres=[genre], limit=1)
+        # 100 recommended tracks per genre
+        rec = sp.recommendations(genres=[genre], limit=100)
+        # add tracks to tracks_data
+        for track in rec.tracks:
+            tracks_data["id"].append(track.id)
+            tracks_data["genre"].append(track.genre)
+            tracks_data["track_name"].append(track.name)
+            artists = [artist.name for artist in track.artists]
+            tracks_data["artist_name"].append(', '.join(artists))
+            tracks_data["valence"].append(track.valence)
+            tracks_data["url"].append(track.external_urls['spotify'])
+            time.sleep(0.5)
 
 
 def tweet(api):
     if ERROR == False:
         msg = get_weather()
-        # msg_follower(api)
+        api.update_status(msg)
+        # msg_follower(api, msg)
 
 
-# def msg_follower(api):
-#     followers = api.get_follower_ids()
-#     for follower in followers:
-#         api.send_direct_message(
-#             follower, "The weather in your area on " + get_current_date() + " is: ")
+def msg_follower(api, msg):
+    followers = api.get_follower_ids()
+    for follower in followers:
+        api.send_direct_message(
+            follower, msg)
 
 
 if __name__ == "__main__":
-    # api = api_auth()
-    # tweet(api)
-    get_all_tracks()
+    api = twitter_auth()
+    tweet(api)
+    # get_all_tracks()
