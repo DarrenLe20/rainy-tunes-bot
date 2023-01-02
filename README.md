@@ -3,6 +3,7 @@
 # Rainy Tunes Bot
 
 Music recommendation Twitter bot
+Twitter: https://twitter.com/rainytunesbot
 
 ## How it works
 
