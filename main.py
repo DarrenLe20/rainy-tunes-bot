@@ -44,7 +44,8 @@ def twitter_auth():
     return api
 
 
-def authorize_spotify():
+# Authenticate to Spotify
+def spotify_auth():
     CLIENT_ID = os.getenv("SPOTIFY_ID")
     CLIENT_SECRET = os.getenv("SPOTIFY_ID_SECRET")
     app_token = tk.request_client_token(CLIENT_ID, CLIENT_SECRET)
@@ -60,7 +61,7 @@ def get_data(track, sp):
 
 
 def get_all_tracks():
-    sp = authorize_spotify()
+    sp = spotify_auth()
     genres = sp.recommendation_genre_seeds()
     random.shuffle(genres)
     for genre in genres:
@@ -120,4 +121,3 @@ def msg_follower(api):
 if __name__ == "__main__":
     api = twitter_auth()
     tweet(api)
-    # get_all_tracks()
