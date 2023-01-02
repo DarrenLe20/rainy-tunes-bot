@@ -69,7 +69,7 @@ def get_all_tracks():
         # add tracks to tracks_data
         for track in rec.tracks:
             get_data(track)
-            time.sleep(0.5)
+        time.sleep(0.5)
 
 
 def recommend(weather_code):
