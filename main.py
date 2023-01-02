@@ -12,6 +12,7 @@ load_dotenv()
 ERROR = False
 tracks_data = {"id": [], "genre": [], "track_name": [], "artist_name": [],
                "valence": [], "url": []}
+default_location = "New York"
 
 
 def get_current_date():
@@ -22,18 +23,18 @@ def get_weather():
     WEATHERSTACK_API_KEY = os.getenv("WEATHERSTACK_API_KEY")
     try:
         req = requests.get(
-            "http://api.weatherstack.com/current?access_key=" + WEATHERSTACK_API_KEY + "&query=New York")
+            "http://api.weatherstack.com/current?access_key=" + WEATHERSTACK_API_KEY + "&query=" + default_location)
         response = req.json()
         description = response['current']['weather_descriptions'][0]
-        msg = "New York (" + get_current_date() + "): " + \
-            description
-        return msg
+        weather_code = response['current']['weather_code']
+        msg = default_location + \
+            " (" + get_current_date() + "): " + description
+        return msg, weather_code
     except:
         ERROR = True
 
+
 # Authenticate to Twitter
-
-
 def twitter_auth():
     auth = tp.OAuth1UserHandler(
         os.getenv("TWITTER_API"), os.getenv("TWITTER_SECRET"))
@@ -67,10 +68,15 @@ def get_all_tracks():
             time.sleep(0.5)
 
 
+def recommend(weather_code):
+    print(weather_code)
+
+
 def tweet(api):
     if ERROR == False:
-        msg = get_weather()
+        msg, weather_code = get_weather()
         api.update_status(msg)
+        recommend(weather_code)
         # msg_follower(api, msg)
 
 
