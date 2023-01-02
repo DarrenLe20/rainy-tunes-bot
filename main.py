@@ -1,4 +1,3 @@
-from urllib import parse, request
 from dotenv import load_dotenv
 import requests
 import time

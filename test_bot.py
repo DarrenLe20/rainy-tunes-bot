@@ -1,6 +1,7 @@
 import unittest
 import requests
 import main
+import constants
 from datetime import date
 import os
 from dotenv import load_dotenv
@@ -34,6 +35,7 @@ class TestBot(unittest.TestCase):
         weather_code = response['current']['weather_code']
         msg = "New York (" + main.get_current_date() + "): " + description
         self.assertEqual(main.get_weather(), (msg, weather_code))
+        self.assertIn(weather_code, constants.WEATHER_CODES.keys())
 
     def test_get_recommendations(self):
         sp = main.spotify_auth()
@@ -50,3 +52,9 @@ class TestBot(unittest.TestCase):
         self.assertIsNotNone(main.tracks_data["track_name"])
         self.assertIsNotNone(main.tracks_data["valence"])
         self.assertIsNotNone(main.tracks_data["url"])
+
+    def test_get_weather_cond(self):
+        msg, weather_code = main.get_weather()
+        for key, val in constants.WEATHER_CATEGORIES.items():
+            if weather_code in val:
+                self.assertEqual(key, main.get_cond(weather_code))
