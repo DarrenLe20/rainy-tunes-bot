@@ -50,6 +50,16 @@ def authorize_spotify():
     return tk.Spotify(app_token)
 
 
+def get_data(track):
+    tracks_data["id"].append(track.id)
+    tracks_data["genre"].append(track.genre)
+    tracks_data["track_name"].append(track.name)
+    artists = [artist.name for artist in track.artists]
+    tracks_data["artist_name"].append(', '.join(artists))
+    tracks_data["valence"].append(track.valence)
+    tracks_data["url"].append(track.external_urls['spotify'])
+
+
 def get_all_tracks():
     sp = authorize_spotify()
     genres = sp.recommendation_genre_seeds()
@@ -58,13 +68,7 @@ def get_all_tracks():
         rec = sp.recommendations(genres=[genre], limit=100)
         # add tracks to tracks_data
         for track in rec.tracks:
-            tracks_data["id"].append(track.id)
-            tracks_data["genre"].append(track.genre)
-            tracks_data["track_name"].append(track.name)
-            artists = [artist.name for artist in track.artists]
-            tracks_data["artist_name"].append(', '.join(artists))
-            tracks_data["valence"].append(track.valence)
-            tracks_data["url"].append(track.external_urls['spotify'])
+            get_data(track)
             time.sleep(0.5)
 
 
@@ -77,7 +81,7 @@ def tweet(api):
         msg, weather_code = get_weather()
         api.update_status(msg)
         recommend(weather_code)
-        # msg_follower(api, msg)
+        msg_follower(api, msg)
 
 
 def msg_follower(api, msg):
