@@ -41,7 +41,7 @@ The bot is written in Python and uses [Tweepy](https://www.tweepy.org/) library 
 
 ## Automation
 
-The bot is automated using GitHub Actions. The workflow is triggered every time a commit is pushed to the repository or at 9AM everyday.
+The bot is automated using GitHub Actions. The test workflow is triggered every time a commit is pushed to the repository. The tweet workflow is triggered manually or at 9AM and 9PM everyday.
 
 ## Author
 
