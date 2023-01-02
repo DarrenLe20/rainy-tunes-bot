@@ -105,6 +105,7 @@ def get_location(api, user_id):
     except:
         default_location = "New York"
     msg, weather_code = get_weather()
+    return msg, weather_code
 
 
 def msg_follower(api):
