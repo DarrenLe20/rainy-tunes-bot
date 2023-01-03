@@ -27,8 +27,9 @@ def get_weather(location=default_location):
         response = req.json()
         description = response['current']['weather_descriptions'][0]
         weather_code = response['current']['weather_code']
+        time = response['current']['observation_time']
         msg = default_location + \
-            " (" + get_current_date() + "): " + description
+            " (" + get_current_date() + " - " + time + "): " + description
         return msg, weather_code
     except:
         ERROR = True
