@@ -33,7 +33,9 @@ class TestBot(unittest.TestCase):
         response = req.json()
         description = response['current']['weather_descriptions'][0]
         weather_code = response['current']['weather_code']
-        msg = "New York (" + main.get_current_date() + "): " + description
+        time = response['current']['observation_time']
+        msg = "New York (" + main.get_current_date() + \
+            " - " + time + "): " + description
         self.assertEqual(main.get_weather(), (msg, weather_code))
         self.assertIn(weather_code, constants.WEATHER_CODES.keys())
 
