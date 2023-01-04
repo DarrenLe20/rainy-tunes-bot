@@ -95,7 +95,7 @@ def tweet(api):
         get_all_tracks()
         song_url = recommend(weather_code)
         api.update_status(msg + "\n" + song_url)
-        msg_follower(api)
+        msg_follower(api, msg)
 
 
 def get_location(api, user_id):
@@ -103,18 +103,21 @@ def get_location(api, user_id):
         location = api.get_user(user_id).location
         if location == "":
             location = default_location
+        return location
     except:
-        location = default_location
-    msg, weather_code = get_weather(location=location)
-    return msg, weather_code
+        return default_location
 
 
-def msg_follower(api):
+def msg_follower(api, default_msg):
     followers = api.get_follower_ids()
     for follower in followers:
-        msg, weather_code = get_location(api, follower)
-        song_url = recommend(weather_code)
-        msg += "\n" + song_url
+        location = get_location(api, follower)
+        if location == default_location:
+            msg = default_msg
+        else:
+            msg, weather_code = get_weather(location=location)
+            song_url = recommend(weather_code)
+            msg += "\n" + song_url
         api.send_direct_message(follower, msg)
 
 
