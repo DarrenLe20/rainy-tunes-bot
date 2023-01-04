@@ -11,7 +11,7 @@ import random
 load_dotenv()
 
 ERROR = False
-tracks_data = {"id": [], "track_name": [], "valence": [], "url": []}
+tracks_data = {"id": [], "valence": [], "url": []}
 default_location = "New York"
 
 
@@ -56,7 +56,6 @@ def spotify_auth():
 
 def get_data(track, sp):
     tracks_data["id"].append(track.id)
-    tracks_data["track_name"].append(track.name)
     valence = sp.track_audio_features(track.id).valence
     tracks_data["valence"].append(valence)
     tracks_data["url"].append(track.external_urls['spotify'])

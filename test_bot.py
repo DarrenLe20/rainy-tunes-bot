@@ -34,6 +34,5 @@ class TestBot(unittest.TestCase):
         rec = sp.recommendations(genres=[genre], limit=1)
         main.get_data(rec.tracks[0], sp)
         self.assertIsNotNone(main.tracks_data["id"])
-        self.assertIsNotNone(main.tracks_data["track_name"])
         self.assertIsNotNone(main.tracks_data["valence"])
         self.assertIsNotNone(main.tracks_data["url"])
