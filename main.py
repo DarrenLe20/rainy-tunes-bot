@@ -64,15 +64,13 @@ def get_data(track, sp):
 
 def get_all_tracks():
     sp = spotify_auth()
-    genres = sp.recommendation_genre_seeds()
-    random.shuffle(genres)
-    for genre in genres:
-        # 100 recommended tracks per genre
-        rec = sp.recommendations(genres=[genre], limit=50)
-        # add tracks to tracks_data
-        for track in rec.tracks:
-            get_data(track, sp)
-        time.sleep(0.5)
+    genres = constants.GENRES
+    genre = random.choice(genres)
+    # 100 recommended tracks per genre
+    rec = sp.recommendations(genres=[genre], limit=50)
+    # add tracks to tracks_data
+    for track in rec.tracks:
+        get_data(track, sp)
 
 
 def get_cond(weather_code):
