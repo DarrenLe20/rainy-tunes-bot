@@ -6,7 +6,7 @@ name: Tweet
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 13,24 * * *"
+    - cron: "0 13,23 * * *"
 
 jobs:
   tweet:
