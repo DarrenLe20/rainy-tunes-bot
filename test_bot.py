@@ -24,13 +24,13 @@ class TestBot(unittest.TestCase):
 
     def test_get_recommendations(self):
         sp = main.spotify_auth()
-        genre = random.choice(sp.recommendation_genre_seeds())
-        self.assertIsNotNone(sp.recommendation_genre_seeds())
+        genre = random.choice(constants.GENRES)
+        self.assertIsNotNone(constants.GENRES)
         self.assertIsNotNone(sp.recommendations(genres=[genre], limit=1))
 
     def test_get_all_tracks(self):
         sp = main.spotify_auth()
-        genre = random.choice(sp.recommendation_genre_seeds())
+        genre = random.choice(constants.GENRES)
         rec = sp.recommendations(genres=[genre], limit=1)
         main.get_data(rec.tracks[0], sp)
         self.assertIsNotNone(main.tracks_data["id"])
