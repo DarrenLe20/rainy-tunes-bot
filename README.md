@@ -21,7 +21,8 @@ The bot is written in Python and uses [Tweepy](https://www.tweepy.org/) library 
 4. Generate the necessery keys and tokens for the app
 5. Apply for elevated access to the Twitter API
 6. Create a Spotify developer account and create a new app [here](https://developer.spotify.com/dashboard/)
-7. Create a .env file with the following environment variables
+7. Create a Weatherstack account and generate an API key [here](https://weatherstack.com/)
+8. Create a .env file with the following environment variables
 
       ```TWITTER_API="your_twitter_api_key"```
 
@@ -37,7 +38,7 @@ The bot is written in Python and uses [Tweepy](https://www.tweepy.org/) library 
 
       ```WEATHERSTACK_API_KEY="your_weatherstack_key"```
 
-8. Run the main.py file
+9. Run the main.py file
 
       ```python main.py```
 
