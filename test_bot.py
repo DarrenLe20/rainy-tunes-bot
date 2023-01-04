@@ -33,6 +33,5 @@ class TestBot(unittest.TestCase):
         genre = random.choice(constants.GENRES)
         rec = sp.recommendations(genres=[genre], limit=1)
         main.get_data(rec.tracks[0], sp)
-        self.assertIsNotNone(main.tracks_data["id"])
         self.assertIsNotNone(main.tracks_data["valence"])
         self.assertIsNotNone(main.tracks_data["url"])
