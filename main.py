@@ -97,11 +97,14 @@ def tweet(api):
         msg_follower(api, msg)
 
 
-def get_location(api, user_id):
+def get_location(api, follower_id):
     try:
-        location = api.get_user(user_id).location
+        location = api.get_user(follower_id).location
         if location == "":
             location = default_location
+        # separate city and country
+        elif "," in location:
+            location = location.split(",")[0]
         return location
     except:
         return default_location
