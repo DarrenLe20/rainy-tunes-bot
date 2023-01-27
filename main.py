@@ -1,6 +1,5 @@
 from dotenv import load_dotenv
 import requests
-import time
 import os
 import tekore as tk
 import tweepy as tp

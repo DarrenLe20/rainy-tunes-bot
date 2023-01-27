@@ -1,13 +1,14 @@
 import unittest
 import requests
 import main
-import constants
 from datetime import date
-import os
 from dotenv import load_dotenv
+import os
 import random
+import constants
 
 load_dotenv()
+WEATHERSTACK_API_KEY = os.getenv("WEATHERSTACK_API_KEY")
 
 
 class TestBot(unittest.TestCase):
@@ -21,6 +22,11 @@ class TestBot(unittest.TestCase):
     def test_auth(self):
         self.assertIsNotNone(main.twitter_auth())
         self.assertIsNotNone(main.spotify_auth())
+
+    def test_get_weather(self):
+        response = requests.get(
+            "http://api.weatherstack.com/current?access_key=" + WEATHERSTACK_API_KEY + "&query=New York")
+        assert response.status_code == 200
 
     def test_get_recommendations(self):
         sp = main.spotify_auth()
