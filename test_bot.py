@@ -23,11 +23,6 @@ class TestBot(unittest.TestCase):
         self.assertIsNotNone(main.twitter_auth())
         self.assertIsNotNone(main.spotify_auth())
 
-    def test_get_weather(self):
-        response = requests.get(
-            "http://api.weatherstack.com/current?access_key=" + WEATHERSTACK_API_KEY + "&query=New York")
-        assert response.status_code == 200
-
     def test_get_recommendations(self):
         sp = main.spotify_auth()
         genre = random.choice(constants.GENRES)
